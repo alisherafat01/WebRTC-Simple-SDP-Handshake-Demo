@@ -3,9 +3,12 @@ let localStream;
 let remoteStream;
 
 let init = async () => {
+    // gettin local stream and attach to video tag
     localStream = await navigator.mediaDevices.getUserMedia({video:true, audio:false})
-    remoteStream = new MediaStream()
     document.getElementById('user-1').srcObject = localStream
+
+    // creating remote stream media object and attach it to remote video tag
+    remoteStream = new MediaStream()
     document.getElementById('user-2').srcObject = remoteStream
 
     localStream.getTracks().forEach((track) => {
@@ -14,7 +17,7 @@ let init = async () => {
 
     peerConnection.ontrack = (event) => {
         event.streams[0].getTracks().forEach((track) => {
-        remoteStream.addTrack(track);
+            remoteStream.addTrack(track);
         });
     };
 }
